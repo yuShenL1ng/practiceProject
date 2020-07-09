@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http#{//mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.demo.mapper.UserMapper">
+	
+ <resultMap id="menuMap" type="com.practice.demo.model.Menu">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="path" column="path"/>
+    <result property="component" column="component"/>
+    <result property="redirect" column="redirect"/>
+    <result property="url" column="url"/>
+    <result property="meta_title" column="meta_title"/>
+    <result property="meta_icon" column="meta_icon"/>
+    <result property="meta_nocache" column="meta_nocache"/>
+    <result property="alwaysshow" column="alwaysshow"/>
+    <result property="meta_affix" column="meta_affix"/>
+    <result property="type" column="type"/>
+    <result property="hidden" column="hidden"/>
+    <result property="pid" column="pid"/>
+    <result property="sort" column="sort"/>
+    <result property="status" column="status"/>
+    <result property="level" column="level"/>
+    <result property="ctime" column="ctime"/>
+    <collection property="menuchildren" ofType="com.practice.demo.model.Menu" column="id" 
+        select="menuByPid">
+	</collection>
+  </resultMap>
+  
+  <select id="getMenu" resultMap="menuMap">
+       select     
+	    mp.id,
+			mp.name,
+			mp.path,
+			mp.component,
+			mp.redirect,
+			mp.url,
+			mp.meta_title,
+			mp.meta_icon,
+			mp.meta_nocache,
+			mp.alwaysshow,
+			mp.meta_affix,
+			mp.type,
+			mp.hidden,
+			mp.pid,
+			mp.sort,
+			mp.status,
+			mp.level,
+			mp.ctime
+    from system_menu mp
+    where mp.pid = 0
+  </select>
+  
+  <select id="menuByPid"  parameterType="com.practice.demo.model.Menu" resultMap="menuMap">
+       select     
+			mc.id as "id",
+			mc.name as "name",
+			mc.path as "path",
+			mc.component as "component",
+			mc.redirect as "redirect",
+			mc.url as "url",
+			mc.meta_title as "meta_title",
+			mc.meta_icon as "meta_icon",
+			mc.meta_nocache as "meta_nocache",
+			mc.alwaysshow as "alwaysshow",
+			mc.meta_affix as "meta_affix",
+			mc.type as "type",
+			mc.hidden as "hidden",
+			mc.pid as "pid",
+			mc.sort as "sort",
+			mc.status as "status",
+			mc.level as "level",
+			mc.ctime as "ctime"
+    from system_menu mc where mc.pid = #{id} 
+  </select>
+	
+</mapper>
